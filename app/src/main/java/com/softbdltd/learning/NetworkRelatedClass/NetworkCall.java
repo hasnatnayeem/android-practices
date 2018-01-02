@@ -21,14 +21,10 @@ public class NetworkCall implements MyApiService
 {
 
 
-
-
-
-
-
     @Override
     public void checkUserValidity(User2 userCredential, final ResponseCallback<String> userValidityCheckListener){
         Logger.addLogAdapter(new AndroidLogAdapter());
+
         RetrofitApiInterface retrofitApiInterface = RetrofitApiClient.getClient().create(RetrofitApiInterface.class);
 
 
@@ -53,6 +49,7 @@ public class NetworkCall implements MyApiService
             }
         });
     }
+
     @Override
     public void getAllUsers(final ResponseCallback<List<User>> listener) {
         RetrofitApiInterface retrofitApiInterface = RetrofitApiClient.getClient().create(RetrofitApiInterface.class);

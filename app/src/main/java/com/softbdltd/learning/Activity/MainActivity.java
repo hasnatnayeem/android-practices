@@ -62,8 +62,6 @@ public class MainActivity extends AppCompatActivity {
                 Logger.d(th.getMessage());
             }
         });
-
-
     }
 
     private String userListToString(List<User> users) {
