@@ -1,5 +1,6 @@
-package com.softbdltd.learning.Interface;
+package com.softbdltd.learning.NetworkRelatedClass;
 
+import com.softbdltd.learning.Model.User;
 import com.softbdltd.learning.Model.User2;
 import com.softbdltd.learning.Model.User2ServerResponse;
 import com.softbdltd.learning.Model.UserResponse;
@@ -15,10 +16,8 @@ import retrofit2.http.POST;
  * Created by nayeem on 1/2/18.
  */
 
-public interface ApiInterface {
-    @GET("/api.php")
-    Call<UserResponse> getAllUsers();
+public interface MyApiService {
 
-    @POST("/check.php")
-    Call<User2ServerResponse> checkUserValidity(@Body User2 credential);
+    void checkUserValidity(User2 userLoginCredential, ResponseCallback<String> callback);
+    void getAllUsers(ResponseCallback<List<User>> callback);
 }

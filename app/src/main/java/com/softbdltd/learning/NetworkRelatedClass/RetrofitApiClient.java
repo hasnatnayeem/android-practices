@@ -1,4 +1,4 @@
-package com.softbdltd.learning.Retrofit;
+package com.softbdltd.learning.NetworkRelatedClass;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

@@ -2,6 +2,7 @@ package com.softbdltd.learning.Activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.TextView;
 
 
@@ -11,9 +12,11 @@ import com.softbdltd.learning.Model.User;
 import com.softbdltd.learning.Model.User2;
 import com.softbdltd.learning.Model.User2ServerResponse;
 import com.softbdltd.learning.Model.UserResponse;
+import com.softbdltd.learning.NetworkRelatedClass.NetworkCall;
+import com.softbdltd.learning.NetworkRelatedClass.ResponseCallback;
 import com.softbdltd.learning.R;
-import com.softbdltd.learning.Interface.ApiInterface;
-import com.softbdltd.learning.Retrofit.RetrofitApiClient;
+import com.softbdltd.learning.NetworkRelatedClass.MyApiService;
+import com.softbdltd.learning.NetworkRelatedClass.RetrofitApiClient;
 
 import java.util.List;
 
@@ -22,7 +25,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity {
-    private ApiInterface apiService;
+    private MyApiService apiService;
     TextView tvUserInfo;
 
     @Override
@@ -32,48 +35,35 @@ public class MainActivity extends AppCompatActivity {
         Logger.addLogAdapter(new AndroidLogAdapter());
 
         tvUserInfo = (TextView) findViewById(R.id.tv_user_info);
+        User2 user = new User2("nayeem", "123");
+        MyApiService myApiService = new NetworkCall();
+        myApiService.checkUserValidity(user, new ResponseCallback<String>() {
 
-        apiService = RetrofitApiClient.getClient().create(ApiInterface.class);
-
-        checkUserValidity(new User2("nayeem", "123"));
-
-    }
-
-    private void getUses() {
-        Call<UserResponse> call = apiService.getAllUsers();
-        call.enqueue(new Callback<UserResponse>() {
             @Override
-            public void onResponse(Call<UserResponse> call, Response<UserResponse> response) {
-                List<User> users = response.body().getUsers();
-                Logger.json(users.get(0).toJson());
+            public void onSuccess(String data) {
+                Logger.d(data);
+            }
+
+            @Override
+            public void onError(Throwable th) {
+                Logger.d(th.getMessage());
+            }
+        });
+
+
+        myApiService.getAllUsers(new ResponseCallback<List<User>>() {
+            @Override
+            public void onSuccess(List<User> users) {
                 tvUserInfo.setText(userListToString(users));
             }
 
             @Override
-            public void onFailure(Call<UserResponse> call, Throwable t) {
-                t.printStackTrace();
+            public void onError(Throwable th) {
+                Logger.d(th.getMessage());
             }
         });
-    }
 
-    private void checkUserValidity(User2 userCredential){
 
-        Call<User2ServerResponse> call = apiService.checkUserValidity(userCredential);
-
-        call.enqueue(new Callback<User2ServerResponse>() {
-
-            @Override
-            public void onResponse(Call<User2ServerResponse> call, Response<User2ServerResponse> response) {
-
-                User2ServerResponse validity = response.body();
-                Logger.d(validity.getMessage());
-            }
-
-            @Override
-            public void onFailure(Call call, Throwable t) {
-                Logger.d(t.toString());
-            }
-        });
     }
 
     private String userListToString(List<User> users) {
@@ -83,6 +73,8 @@ public class MainActivity extends AppCompatActivity {
         }
         return result;
     }
+
+
 
     private void testLogger() {
         String json = "{name: nayeem, age: 24}";
