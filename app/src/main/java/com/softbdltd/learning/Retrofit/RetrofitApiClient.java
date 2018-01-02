@@ -11,7 +11,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class RetrofitApiClient {
-    private static final String BASE_URL = "https://jsonplaceholder.typicode.com/";
+//    private static final String BASE_URL = "https://jsonplaceholder.typicode.com";
+    private static final String BASE_URL = "http://192.168.10.46";
     private static Retrofit retrofit = null;
 
     private static Gson gson = new GsonBuilder()
