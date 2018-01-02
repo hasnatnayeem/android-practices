@@ -1,10 +1,11 @@
-package com.softbdltd.learning;
+package com.softbdltd.learning.Activity;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.orhanobut.logger.AndroidLogAdapter;
 import com.orhanobut.logger.Logger;
+import com.softbdltd.learning.R;
 
 public class MainActivity extends AppCompatActivity {
 
